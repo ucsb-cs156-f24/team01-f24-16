@@ -1,0 +1,62 @@
+{
+    "databaseChangeLog": [
+      {
+        "changeSet": {
+          "id": "ucsbdiningcommonsmenuitem-1",
+          "author": "KellyL",
+          "preConditions": [
+            {
+              "onFail": "MARK_RAN"
+            },
+            {
+              "not": [
+                {
+                  "tableExists": {
+                    "tableName": "ucsbdiningcommonsmenuitem"
+                  }
+                }
+              ]
+            }
+          ],
+          "changes": [
+            {
+              "createTable": {
+                "columns": [
+                  {
+                    "column": {
+                      "autoIncrement": true,
+                      "constraints": {
+                        "primaryKey": true,
+                        "primaryKeyName": "UCSBDININGCOMMONSMENUITEMS_PK"
+                      },
+                      "name": "ID",
+                      "type": "BIGINT"
+                    }
+                  },
+                  {
+                    "column": {
+                      "name": "DININGCOMMONSCODE",
+                      "type": "VARCHAR(255)"
+                    }
+                  },
+                  {
+                    "column": {
+                      "name": "NAME",
+                      "type": "VARCHAR(255)"
+                    }
+                  },
+                  {
+                    "column": {
+                      "name": "STATION",
+                      "type": "VARCHAR(255)"
+                    }
+                  }
+                ],
+                "tableName": "ucsbdiningcommonsmenuitem"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
