@@ -68,9 +68,9 @@ public class UCSBDiningCommonsMenuItemController {
     )
     {
         UCSBDiningCommonsMenuItem menuitem = new UCSBDiningCommonsMenuItem();
-        UCSBDiningCommonsMenuItem.setDiningCommonsCode(diningCommonsCode);
-        UCSBDiningCommonsMenuItem.setName(name);
-        UCSBDiningCommonsMenuItem.setStation(station);
+        menuitem.setDiningCommonsCode(diningCommonsCode);
+        menuitem.setName(name);
+        menuitem.setStation(station);
 
         UCSBDiningCommonsMenuItem savedMenuItem = ucsbDiningCommonsMenuItemRepository.save(menuitem);
 
