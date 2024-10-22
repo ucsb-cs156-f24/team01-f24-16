@@ -2,7 +2,7 @@
     "databaseChangeLog": [
       {
         "changeSet": {
-          "id": "RECOMMENDATION_REQUEST-1",
+          "id": "UCSBRECOMMENDATIONREQUESTS-1",
           "author": "JaydenJ",
           "preConditions": [
             {
@@ -12,7 +12,7 @@
               "not": [
                 {
                   "tableExists": {
-                    "tableName": "RECOMMENDATION_REQUEST"
+                    "tableName": "UCSBRECOMMENDATIONREQUESTS"
                   }
                 }
               ]
@@ -27,7 +27,7 @@
                       "autoIncrement": true,
                       "constraints": {
                         "primaryKey": true,
-                        "primaryKeyName": "RECOMMENDATION_REQUEST_PK"
+                        "primaryKeyName": "UCSBRECOMMENDATIONREQUESTS_PK"
                       },
                       "name": "ID",
                       "type": "BIGINT"
@@ -70,7 +70,7 @@
                     }
                   }
                 ],
-                "tableName": "RECOMMENDATION_REQUEST"
+                "tableName": "UCSBRECOMMENDATIONREQUESTS"
               }
             }
           ]
