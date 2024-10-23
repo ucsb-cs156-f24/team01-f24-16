@@ -38,11 +38,11 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
     UCSBDiningCommonsMenuItemRepository ucsbDiningCommonsMenuItemRepository;
 
     /**
-     * List all UCSB dining commons' menu
+     * List all UCSB dining commons' menu items
      * 
      * @return an iterable of UCSBDiningCommonsMenuItem
      */
-    @Operation(summary= "List all ucsb dining commons' menu")
+    @Operation(summary= "List all UCSB dining commons' menu items")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
     public Iterable<UCSBDiningCommonsMenuItem> allUCSBDiningCommonsMenuItem() {
@@ -50,32 +50,32 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
         return menuitem;
     }
 
-    // /**
-    //  * Get a single item on the menu by id
-    //  * 
-    //  * @param id the id of the menu item
-    //  * @return a menu item
-    //  */
-    // @Operation(summary= "Get a single item on the menu")
-    // @PreAuthorize("hasRole('ROLE_USER')")
-    // @GetMapping("")
-    // public UCSBDiningCommonsMenuItem getById(
-    //         @Parameter(name="id") @RequestParam Long id) {
-    //     UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
-    //             .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+    /**
+     * Get a single item on the menu by id
+     * 
+     * @param id the id of the menu item
+     * @return a menu item
+     */
+    @Operation(summary= "Get a single item on the menu")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBDiningCommonsMenuItem getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
 
-    //     return ucsbDiningCommonsMenuItem;
-    // }
+        return ucsbDiningCommonsMenuItem;
+    }
 
         /**
-     * Create a new menu item
+     * Create a new item on the menu
      * 
      * @param diningCommonsCode  the dining common
      * @param name          the name of the menu item
      * @param station the type of meal
      * @return the saved menu item
      */
-    @Operation(summary= "Create a new menu item")
+    @Operation(summary= "Create a new item on the menu")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public UCSBDiningCommonsMenuItem postMenuItem(
