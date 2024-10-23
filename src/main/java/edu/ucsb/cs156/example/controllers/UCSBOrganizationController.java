@@ -35,14 +35,33 @@ public class UCSBOrganizationController extends ApiController {
     @Autowired
     UCSBOrganizationRepository ucsbOrganizationRepository;
 
+    /**
+     * THis method returns a list of all ucsborgnization.
+     * @return a list of all ucsborgnization
+     */
+
+    @Operation(summary= "List all ucsb organizations")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<UCSBOrganization> allCommonss() {
-        Iterable<UCSBOrganization> commons = ucsbOrganizationRepository.findAll();
-        return commons;
+    public Iterable<UCSBOrganization> allOrganizations() {
+        Iterable<UCSBOrganization> organizations = ucsbOrganizationRepository.findAll();
+        return organizations;
     }
 
+
+    /**
+     * This method creates a new organizations. Accessible only to users with the role "ROLE_ADMIN".
+     * @param orgCode code of the organizations
+     * @param orgTranslationShort name of the organizations
+     * @param orgTranslation whether or not the organizations has sack meals
+     * @param inactive whether or not the organizations has take out meals
+     * @return the save organizations
+     */
+
+    @Operation(summary= "Create a new organization")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
-    public UCSBOrganization postCommons(
+    public UCSBOrganization postOrganizations(
         @Parameter(name="orgCode") @RequestParam String orgCode,
         @Parameter(name="orgTranslationShort") @RequestParam String orgTranslationShort,
         @Parameter(name="orgTranslation") @RequestParam String orgTranslation,
@@ -50,14 +69,14 @@ public class UCSBOrganizationController extends ApiController {
         )
         {
 
-        UCSBOrganization commons = new UCSBOrganization();
-        commons.setOrgCode(orgCode);
-        commons.setOrgTranslationShort(orgTranslationShort);
-        commons.setOrgTranslation(orgTranslation);
-        commons.setInactive(inactive);
+        UCSBOrganization organizations = new UCSBOrganization();
+        organizations.setOrgCode(orgCode);
+        organizations.setOrgTranslationShort(orgTranslationShort);
+        organizations.setOrgTranslation(orgTranslation);
+        organizations.setInactive(inactive);
 
-        UCSBOrganization savedCommons = ucsbOrganizationRepository.save(commons);
+        UCSBOrganization savedOrganizations = ucsbOrganizationRepository.save(organizations);
 
-        return savedCommons;
+        return savedOrganizations;
     }
 }
