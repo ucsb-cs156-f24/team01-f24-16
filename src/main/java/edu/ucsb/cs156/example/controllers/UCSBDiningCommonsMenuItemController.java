@@ -1,0 +1,97 @@
+package edu.ucsb.cs156.example.controllers;
+
+import edu.ucsb.cs156.example.entities.UCSBDiningCommonsMenuItem;
+import edu.ucsb.cs156.example.errors.EntityNotFoundException;
+import edu.ucsb.cs156.example.repositories.UCSBDiningCommonsMenuItemRepository;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+
+import java.time.LocalDateTime;
+
+
+@Tag(name = "UCSBDiningCommonsMenuItem")
+@RequestMapping("/api/ucsbdiningcommonsmenuitem")
+@RestController
+@Slf4j
+public class UCSBDiningCommonsMenuItemController extends ApiController{
+
+    @Autowired
+    UCSBDiningCommonsMenuItemRepository ucsbDiningCommonsMenuItemRepository;
+
+    /**
+     * List all UCSB dining commons' menu
+     * 
+     * @return an iterable of UCSBDiningCommonsMenuItem
+     */
+    @Operation(summary= "List all ucsb dining commons' menu")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/all")
+    public Iterable<UCSBDiningCommonsMenuItem> allUCSBDiningCommonsMenuItem() {
+        Iterable<UCSBDiningCommonsMenuItem> menuitem = ucsbDiningCommonsMenuItemRepository.findAll();
+        return menuitem;
+    }
+
+    // /**
+    //  * Get a single item on the menu by id
+    //  * 
+    //  * @param id the id of the menu item
+    //  * @return a menu item
+    //  */
+    // @Operation(summary= "Get a single item on the menu")
+    // @PreAuthorize("hasRole('ROLE_USER')")
+    // @GetMapping("")
+    // public UCSBDiningCommonsMenuItem getById(
+    //         @Parameter(name="id") @RequestParam Long id) {
+    //     UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+    //             .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+    //     return ucsbDiningCommonsMenuItem;
+    // }
+
+        /**
+     * Create a new menu item
+     * 
+     * @param diningCommonsCode  the dining common
+     * @param name          the name of the menu item
+     * @param station the type of meal
+     * @return the saved menu item
+     */
+    @Operation(summary= "Create a new menu item")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/post")
+    public UCSBDiningCommonsMenuItem postMenuItem(
+            @Parameter(name="diningCommonsCode") @RequestParam String diningCommonsCode,
+            @Parameter(name="name") @RequestParam String name,
+            @Parameter(name="station") @RequestParam String station
+    )
+    {
+        UCSBDiningCommonsMenuItem menuitem = new UCSBDiningCommonsMenuItem();
+        menuitem.setDiningCommonsCode(diningCommonsCode);
+        menuitem.setName(name);
+        menuitem.setStation(station);
+
+        UCSBDiningCommonsMenuItem savedMenuItem = ucsbDiningCommonsMenuItemRepository.save(menuitem);
+
+        return savedMenuItem;
+    }
+
+}
