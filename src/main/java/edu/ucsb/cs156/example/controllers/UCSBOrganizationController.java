@@ -48,28 +48,13 @@ public class UCSBOrganizationController extends ApiController {
         return organizations;
     }
 
-    /**
-     * This method returns a single organizations.
-     * @param orgCode code of the organizations
-     * @return a single organizations
-     */
-    @Operation(summary= "Get a single organizations")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("")
-    public UCSBOrganization getById(
-            @Parameter(name="orgCode") @RequestParam String orgCode) {
-        UCSBOrganization organizations = ucsbOrganizationRepository.findById(orgCode)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
-
-        return organizations;
-    }
 
     /**
      * This method creates a new organizations. Accessible only to users with the role "ROLE_ADMIN".
      * @param orgCode code of the organizations
-     * @param orgTranslationShort name of organization translation short
-     * @param orgTranslation name of organization translation
-     * @param inactive whether or not the organizations is active
+     * @param orgTranslationShort name of the organizations
+     * @param orgTranslation whether or not the organizations has sack meals
+     * @param inactive whether or not the organizations has take out meals
      * @return the save organizations
      */
 
@@ -95,9 +80,20 @@ public class UCSBOrganizationController extends ApiController {
         return savedOrganizations;
     }
 
+        /**
+     * This method returns a single organizations.
+     * @param orgCode code of the organizations
+     * @return a single organizations
+     */
+    @Operation(summary= "Get a single organizations")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBOrganization getById(
+            @Parameter(name="orgCode") @RequestParam String orgCode) {
+        UCSBOrganization organizations = ucsbOrganizationRepository.findById(orgCode)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+
+        return organizations;
+    }
+
 }
-
-
-
-
-
