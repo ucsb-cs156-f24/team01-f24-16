@@ -179,17 +179,42 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
         assertEquals(expectedJson, responseString);
     }
 
+
+
+
     @WithMockUser(roles = { "USER" })
     @Test
     public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
-        when(ucsbRecommendationRequestRepository.findById(123L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/recommendationRequest?id=123"))
-                .andExpect(status().isNotFound())
-                .andReturn();
+            // arrange
 
-        verify(ucsbRecommendationRequestRepository, times(1)).findById(123L);
+            when(ucsbRecommendationRequestRepository.findById(eq(7L))).thenReturn(Optional.empty());
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/recommendationRequest?id=7"))
+                            .andExpect(status().isNotFound()).andReturn();
+
+            // assert
+
+            verify(ucsbRecommendationRequestRepository, times(1)).findById(eq(7L));
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("EntityNotFoundException", json.get("type"));
+            assertEquals("UCSBRecommendationRequest with id 7 not found", json.get("message"));
     }
+
+
+
+//     @WithMockUser(roles = { "USER" })
+//     @Test
+//     public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+//         when(ucsbRecommendationRequestRepository.findById(123L)).thenReturn(Optional.empty());
+
+//         mockMvc.perform(get("/api/recommendationRequest?id=123"))
+//                 .andExpect(status().isNotFound())
+//                 .andReturn();
+
+//         verify(ucsbRecommendationRequestRepository, times(1)).findById(123L);
+//     }
 
 //     @WithMockUser(roles = { "ADMIN", "USER" })
 //     @Test
