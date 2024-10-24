@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.example.controllers;
 
 import edu.ucsb.cs156.example.entities.Articles;
+import edu.ucsb.cs156.example.entities.UCSBDate;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.ArticlesRepository;
 
@@ -91,4 +92,51 @@ public class ArticlesController extends ApiController {
         
         return savedArticle;        
     }
+
+
+     /**
+     * Get a single article by id
+     * 
+     * @param id the id of the article
+     * @return an article
+     */
+    @Operation(summary= "Get a single article", description = "Retrieve a single article by providing the ID")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public Articles getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        Articles article = ArticlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
+
+        return article;
+    }
+
+    /**
+     * Update a single article
+     * 
+     * @param id       id of the article to update
+     * @param incoming the new article object
+     * @return the updated article object
+     */
+    @Operation(summary= "Update a single article", description = "Update a single article by providing the ID and the new article data")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public Articles updateArticle(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid Articles incoming) {
+
+        Articles article = ArticlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
+
+        article.setTitle(incoming.getTitle());
+        article.setUrl(incoming.getUrl());
+        article.setExplanation(incoming.getExplanation());
+        article.setEmail(incoming.getEmail());
+        article.setDateAdded(incoming.getDateAdded());
+
+        ArticlesRepository.save(article);
+
+        return article;
+    }
+
 }
