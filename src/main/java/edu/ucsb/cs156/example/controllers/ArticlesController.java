@@ -57,7 +57,6 @@ public class ArticlesController extends ApiController {
     /**
      * Create a new article
      * 
-     * @param id the id
      * @param title the title of the article
      * @param url the URL of the article
      * @param explanation the explanation of the article
@@ -69,7 +68,6 @@ public class ArticlesController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public Articles postArticle(
-            @Parameter(description = "ID of the article", example = "1") @RequestParam Long id,
             @Parameter(description = "Title of the article", example = "First Article") @RequestParam String title,
             @Parameter(description = "URL of the article", example = "https://first.com") @RequestParam String url,
             @Parameter(description = "Explanation of the article", example = "This is a sample explanation.") @RequestParam String explanation,
@@ -81,7 +79,6 @@ public class ArticlesController extends ApiController {
         log.info("dateAdded={}", dateAdded);
 
         Articles article = new Articles();
-        article.setId(id);
         article.setTitle(title);
         article.setUrl(url);
         article.setExplanation(explanation);

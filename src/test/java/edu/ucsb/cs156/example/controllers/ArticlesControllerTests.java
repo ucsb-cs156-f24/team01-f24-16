@@ -73,7 +73,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
         // Arrange
         LocalDateTime dateAdded1 = LocalDateTime.parse("2024-10-23T00:00:00");
         Articles article1 = Articles.builder()
-                .id(1L)
                 .title("First Article")
                 .url("https://first.com")
                 .explanation("This is the first article.")
@@ -83,7 +82,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
 
         LocalDateTime dateAdded2 = LocalDateTime.parse("2024-10-24T00:00:00");
         Articles article2 = Articles.builder()
-                .id(2L)
                 .title("Second Article")
                 .url("https://second.com")
                 .explanation("This is the second article.")
@@ -114,7 +112,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
         // Arrange
         LocalDateTime dateAdded = LocalDateTime.parse("2024-10-23T00:00:00");
         Articles article = Articles.builder()
-                .id(1L)
                 .title("First Article")
                 .url("https://first.com")
                 .explanation("This is the first article.")
@@ -127,7 +124,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
         // Act
         MvcResult response = mockMvc.perform(
                 post("/api/articles/post")
-                        .param("id", "1")
                         .param("title", "First Article")
                         .param("url", "https://first.com")
                         .param("explanation", "This is the first article.")
@@ -160,7 +156,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
         LocalDateTime dateAdded1 = LocalDateTime.parse("2022-01-01T00:00:00");
 
         Articles article = Articles.builder()
-                .id(7L)
                 .title("First Article")
                 .url("https://first.com")
                 .explanation("This is the first article.")
@@ -206,7 +201,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
         LocalDateTime newDateAdded = LocalDateTime.parse("2022-12-31T00:00:00");
 
         Articles originalArticle = Articles.builder()
-                .id(67L)
                 .title("Original Article")
                 .url("https://original.com")
                 .explanation("This is the original content.")
@@ -215,7 +209,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 .build();
 
         Articles editedArticle = Articles.builder()
-                .id(67L)
                 .title("Edited Article")
                 .url("https://edited.com")
                 .explanation("This is the edited content.")
@@ -253,7 +246,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
         LocalDateTime dateAdded1 = LocalDateTime.parse("2022-01-01T00:00:00");
 
         Articles editedArticle = Articles.builder()
-                .id(67L)
                 .title("Edited Article")
                 .url("https://edited.com")
                 .explanation("This is the edited content.")
@@ -289,8 +281,6 @@ public class ArticlesControllerTests extends ControllerTestCase {
             LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
             Articles article = Articles.builder()
-
-                            .id(15L)
                             .title("First Article")
                             .url("https://first.com")
                             .explanation("This is the first article.")
