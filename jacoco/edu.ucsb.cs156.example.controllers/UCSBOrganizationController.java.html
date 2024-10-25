@@ -95,6 +95,52 @@ import jakarta.validation.Valid;
 
 <span class="fc" id="L96">        return organizations;</span>
     }
-    
+
+
+    /**
+     * Update a single organizations. Accessible only to users with the role &quot;ROLE_ADMIN&quot;.
+     * @param orgCode code of the organizations
+     * @param incoming the new organizations contents
+     * @return the updated organizations object
+     */
+    @Operation(summary= &quot;Update a single organizations&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public UCSBOrganization updateOrganizations(
+            @Parameter(name=&quot;orgCode&quot;) @RequestParam String orgCode,
+            @RequestBody @Valid UCSBOrganization incoming) {
+
+<span class="fc" id="L113">        UCSBOrganization organizations = ucsbOrganizationRepository.findById(orgCode)</span>
+<span class="fc" id="L114">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBOrganization.class, orgCode));</span>
+
+
+<span class="fc" id="L117">        organizations.setOrgCode(incoming.getOrgCode());  </span>
+<span class="fc" id="L118">        organizations.setOrgTranslationShort(incoming.getOrgTranslationShort());</span>
+<span class="fc" id="L119">        organizations.setOrgTranslation(incoming.getOrgTranslation());</span>
+<span class="fc" id="L120">        organizations.setInactive(incoming.getInactive());</span>
+
+<span class="fc" id="L122">        ucsbOrganizationRepository.save(organizations);</span>
+
+<span class="fc" id="L124">        return organizations;</span>
+    }
+
+    /**
+     * Delete a organizations. Accessible only to users with the role &quot;ROLE_ADMIN&quot;.
+     * @param orgCode code of the organizations
+     * @return a message indiciating the organizations was deleted
+     */
+    @Operation(summary= &quot;Delete a UCSBOrganization&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteOrganizations(
+            @Parameter(name=&quot;orgCode&quot;) @RequestParam String orgCode) {
+<span class="fc" id="L137">        UCSBOrganization organizations = ucsbOrganizationRepository.findById(orgCode)</span>
+<span class="fc" id="L138">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBOrganization.class, orgCode));</span>
+
+<span class="fc" id="L140">        ucsbOrganizationRepository.delete(organizations);</span>
+<span class="fc" id="L141">        return genericMessage(&quot;UCSBOrganization with id %s deleted&quot;.formatted(orgCode));</span>
+    }
+
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
