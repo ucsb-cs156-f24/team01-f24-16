@@ -79,8 +79,8 @@ public class UCSBOrganizationController extends ApiController {
 
         return savedOrganizations;
     }
-
-        /**
+  
+  /**
      * This method returns a single organizations.
      * @param orgCode code of the organizations
      * @return a single organizations
@@ -95,5 +95,3 @@ public class UCSBOrganizationController extends ApiController {
 
         return organizations;
     }
-
-}
