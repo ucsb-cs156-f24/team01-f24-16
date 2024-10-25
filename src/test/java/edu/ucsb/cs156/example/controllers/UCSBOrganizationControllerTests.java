@@ -140,6 +140,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 
+
         // Tests with mocks for database actions
 
         @WithMockUser(roles = { "USER" })
