@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -126,7 +127,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                 .explanation("Need%20this%20for%20graduate%20application.")
                 .dateRequested(now)
                 .dateNeeded(testDateNeeded)
-                .done(false)
+                .done(true)
                 .build();
 
         when(ucsbRecommendationRequestRepository.save(eq(newRequest))).thenReturn(newRequest);
@@ -134,7 +135,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
         String req1 = "/api/recommendationRequest/post?requesterEmail=user@example.com&professorEmail=prof@example.com&explanation=Need%20this%20for%20graduate%20application.&dateRequested=";
         req1 = req1 + now.toString();
 
-        String reqf = req1 + "&dateNeeded=2024-11-23T20:40:10&done=false";
+        String reqf = req1 + "&dateNeeded=2024-11-23T20:40:10&done=true";
 
         System.out.println("Final URL: " + reqf);
 
