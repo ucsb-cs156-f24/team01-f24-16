@@ -95,5 +95,51 @@ public class UCSBOrganizationController extends ApiController {
 
         return organizations;
     }
-    
+
+
+    /**
+     * Update a single organizations. Accessible only to users with the role "ROLE_ADMIN".
+     * @param orgCode code of the organizations
+     * @param incoming the new organizations contents
+     * @return the updated organizations object
+     */
+    @Operation(summary= "Update a single organizations")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBOrganization updateOrganizations(
+            @Parameter(name="orgCode") @RequestParam String orgCode,
+            @RequestBody @Valid UCSBOrganization incoming) {
+
+        UCSBOrganization organizations = ucsbOrganizationRepository.findById(orgCode)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+
+
+        organizations.setOrgCode(incoming.getOrgCode());  
+        organizations.setOrgTranslationShort(incoming.getOrgTranslationShort());
+        organizations.setOrgTranslation(incoming.getOrgTranslation());
+        organizations.setInactive(incoming.getInactive());
+
+        ucsbOrganizationRepository.save(organizations);
+
+        return organizations;
+    }
+
+    /**
+     * Delete a organizations. Accessible only to users with the role "ROLE_ADMIN".
+     * @param orgCode code of the organizations
+     * @return a message indiciating the organizations was deleted
+     */
+    @Operation(summary= "Delete a UCSBOrganization")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteOrganizations(
+            @Parameter(name="orgCode") @RequestParam String orgCode) {
+        UCSBOrganization organizations = ucsbOrganizationRepository.findById(orgCode)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgCode));
+
+        ucsbOrganizationRepository.delete(organizations);
+        return genericMessage("UCSBOrganization with id %s deleted".formatted(orgCode));
+    }
+
+
 }
