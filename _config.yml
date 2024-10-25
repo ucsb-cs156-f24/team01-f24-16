@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/team01-f24-16
 owner: ucsb-cs156-f24
 repo_name: team01-f24-16
-pull_requests: []
+pull_requests: [{"author":{"id":"MDQ6VXNlcjgyMzMyNjk2","is_bot":false,"login":"jayster7101","name":"Jayden"},"headRefName":"RecommendationRequestController-get-post","number":60,"title":"Recommendation request controller get post ","url":"https://github.com/ucsb-cs156-f24/team01-f24-16/pull/60"}]
