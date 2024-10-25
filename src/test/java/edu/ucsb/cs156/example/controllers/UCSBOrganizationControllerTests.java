@@ -188,5 +188,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("UCSBOrganization with id art not found", json.get("message"));
         }
+
+        
         
 }
