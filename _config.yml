@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/team01-f24-16
 owner: ucsb-cs156-f24
 repo_name: team01-f24-16
-pull_requests: [{"author":{"id":"U_kgDOB3E0Rw","is_bot":false,"login":"ttnguyen908","name":"Tiffany Nguyen"},"headRefName":"Tiffany-ReqRequestTable","number":61,"title":"HelpRequestController passing for POST and ALL controller tests!","url":"https://github.com/ucsb-cs156-f24/team01-f24-16/pull/61"},{"author":{"id":"MDQ6VXNlcjgyMzMyNjk2","is_bot":false,"login":"jayster7101","name":"Jayden"},"headRefName":"RecommendationRequestController-get-post","number":60,"title":"Recommendation request controller get post ","url":"https://github.com/ucsb-cs156-f24/team01-f24-16/pull/60"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjgyMzMyNjk2","is_bot":false,"login":"jayster7101","name":"Jayden"},"headRefName":"RecommendationRequestController-get-post","number":60,"title":"Recommendation request controller get post ","url":"https://github.com/ucsb-cs156-f24/team01-f24-16/pull/60"}]
