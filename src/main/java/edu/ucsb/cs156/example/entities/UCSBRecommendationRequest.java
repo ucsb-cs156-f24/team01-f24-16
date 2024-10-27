@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,6 @@ public class UCSBRecommendationRequest {
     private String explanation;
     private LocalDateTime dateRequested;
     private LocalDateTime dateNeeded;
-    private boolean done;
+    @Getter private boolean done;
     
 }
