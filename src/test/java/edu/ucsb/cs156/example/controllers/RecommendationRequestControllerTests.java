@@ -209,7 +209,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                                 .dateRequested(LocalDateTime.now())
                                 .dateNeeded(LocalDateTime.now().plusDays(30))
                                 .done(false)
-                                .id(67)
+                                .id(68)
                                 .build();
 
                 UCSBRecommendationRequest recommendationRequestEdited = UCSBRecommendationRequest.builder()
@@ -219,7 +219,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                                 .dateRequested(LocalDateTime.now())
                                 .dateNeeded(LocalDateTime.now().plusDays(31))
                                 .done(true)
-                                .id(68)
+                                .id(67)
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(recommendationRequestEdited);
