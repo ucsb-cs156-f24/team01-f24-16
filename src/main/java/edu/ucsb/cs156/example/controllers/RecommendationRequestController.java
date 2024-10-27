@@ -152,6 +152,24 @@ public class RecommendationRequestController extends ApiController {
         return ucsbRecommendationRequest;
     }
 
+        /**
+     * Delete a UCSBRecommendationRequest 
+     * 
+     * @param id the id of the recommendationRequest to delete
+     * @return a message indicating the recommendationRequest was deleted
+     */
+    @Operation(summary= "Delete a UCSBRecommendationRequest")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteUCSBDate(
+            @Parameter(name="id") @RequestParam Long id) {
+            UCSBRecommendationRequest ucsbRecommendationRequest = ucsbRecommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBRecommendationRequest.class, id));
+
+        ucsbRecommendationRequestRepository.delete(ucsbRecommendationRequest);
+        return genericMessage("UCSBRecommendationRequest with id %s deleted".formatted(id));
+    }
+
 
     
 }
