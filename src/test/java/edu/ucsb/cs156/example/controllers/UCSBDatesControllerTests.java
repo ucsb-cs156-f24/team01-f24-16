@@ -43,6 +43,7 @@ public class UCSBDatesControllerTests extends ControllerTestCase {
         UserRepository userRepository;
 
         // Authorization tests for /api/ucsbdates/admin/all
+        // + Test for ID
 
         @Test
         public void logged_out_users_cannot_get_all() throws Exception {

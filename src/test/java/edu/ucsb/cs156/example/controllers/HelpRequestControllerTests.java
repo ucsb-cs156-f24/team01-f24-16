@@ -42,39 +42,130 @@ public class HelpRequestControllerTests extends ControllerTestCase {
         @MockBean
         UserRepository userRepository;
 
-        // Authorization tests for /api/helprequest/admin/all
+        // Authorization tests for /api/helprequest/admin/all (ALL)
         @Test
         public void logged_out_users_cannot_get_all() throws Exception {
-                mockMvc.perform(get("/api/helprequests/all"))
+                mockMvc.perform(get("/api/helprequest/all"))
                                 .andExpect(status().is(403)); // logged out users can't get all
         }
 
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_users_can_get_all() throws Exception {
-                mockMvc.perform(get("/api/helprequests/all"))
+                mockMvc.perform(get("/api/helprequest/all"))
                                 .andExpect(status().is(200)); // logged
         }
 
+        @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void logged_out_users_cannot_get_by_id() throws Exception {
-                mockMvc.perform(get("/api/helprequests?id=7"))
-                                .andExpect(status().is(403)); // logged out users can't get by id
+        public void logged_in_admins_can_get_all() throws Exception {
+                mockMvc.perform(get("/api/helprequest/all"))
+                                .andExpect(status().is(200)); // admin
         }
 
-        // Authorization tests for /api/helprequest/post
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void logged_in_user_can_get_all_helprequests() throws Exception {
+
+                // arrange
+                LocalDateTime reqTime1 = LocalDateTime.parse("2024-10-02T00:00:00");
+
+                HelpRequest helpRequest1 = HelpRequest.builder()
+                                .requesterEmail("ttnguyen@ucsb.edu")
+                                .teamId("F24-16")
+                                .tableOrBreakoutRoom("Table 16")
+                                .explanation("Needs help with jpa03")
+                                .solved(true)
+                                .requestTime(reqTime1)
+                                .build();
+
+                LocalDateTime reqTime2 = LocalDateTime.parse("2024-10-02T00:00:00");
+
+                HelpRequest helpRequest2 = HelpRequest.builder()
+                                .requesterEmail("mockemail@ucsb.edu")
+                                .teamId("F24-01")
+                                .tableOrBreakoutRoom("Table 1")
+                                .explanation("Needs help with jpa02")
+                                .solved(true)
+                                .requestTime(reqTime2)
+                                .build();
+
+                ArrayList<HelpRequest> expectedHelpReqs = new ArrayList<>();
+                expectedHelpReqs.addAll(Arrays.asList(helpRequest1, helpRequest2));
+
+                when(helpRequestRepository.findAll()).thenReturn(expectedHelpReqs);
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/helprequest/all"))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+
+                verify(helpRequestRepository, times(1)).findAll();
+                String expectedJson = mapper.writeValueAsString(expectedHelpReqs);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void an_admin_user_can_post_a_new_helprequest() throws Exception {
+                // arrange
+
+                LocalDateTime reqTime1 = LocalDateTime.parse("2024-10-02T00:00:00");
+
+                HelpRequest helpRequest1 = HelpRequest.builder()
+                                .requesterEmail("ttnguyen@ucsb.edu")
+                                .teamId("F24-16")
+                                .tableOrBreakoutRoom("Table_16")
+                                .explanation("Needs_help_with_jpa03")
+                                .solved(true)
+                                .requestTime(reqTime1)
+                                .build();
+
+                when(helpRequestRepository.save(eq(helpRequest1))).thenReturn(helpRequest1);
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                post("/api/helprequest/post?requesterEmail=ttnguyen@ucsb.edu&teamId=F24-16&tableOrBreakoutRoom=Table_16&explanation=Needs_help_with_jpa03&solved=true&requestTime=2024-10-02T00:00:00")
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(helpRequestRepository, times(1)).save(helpRequest1);
+                String expectedJson = mapper.writeValueAsString(helpRequest1);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+
+        // NOTE TO SELF ; UNCOMMENT ONCE GET IS COMPLETE
+        // Authorization tests for GET
+        // @Test
+        // public void logged_out_users_cannot_get_by_id() throws Exception {
+        //         mockMvc.perform(get("/api/helprequests?id=7"))
+        //                         .andExpect(status().is(403)); // logged out users can't get by id
+        // }
+
+        // @WithMockUser(roles = { "USER" })
+        // @Test
+        // public void logged_in_users_can_get_by_id() throws Exception {
+        //         mockMvc.perform(get("/api/helprequests?id=7"))
+        //                         .andExpect(status().is(200)); // logged in users can get by id
+        // }
+
+        // Authorization tests for /api/helprequest/post (POST)
         // (Perhaps should also have these for put and delete)
 
         @Test
         public void logged_out_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/helprequests/post"))
+                mockMvc.perform(post("/api/helprequest/post"))
                                 .andExpect(status().is(403));
         }
 
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_regular_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/helprequests/post"))
+                mockMvc.perform(post("/api/helprequest/post"))
                                 .andExpect(status().is(403)); // only admins can post
         }
 }

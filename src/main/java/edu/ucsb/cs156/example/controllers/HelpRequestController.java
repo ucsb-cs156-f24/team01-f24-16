@@ -27,8 +27,8 @@ import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
 
-@Tag(name = "HelpRequests")
-@RequestMapping("/api/helprequests")
+@Tag(name = "HelpRequest")
+@RequestMapping("/api/helprequest")
 @RestController
 @Slf4j
 public class HelpRequestController extends ApiController {
@@ -45,7 +45,17 @@ public class HelpRequestController extends ApiController {
         return requests;
     }
 
-    // 
+    // Gets a single help request by id
+    // @Operation(summary= "Get a single help request")
+    // @PreAuthorize("hasRole('ROLE_USER')")
+    // @GetMapping("")
+    // public HelpRequest getById(
+    //         @Parameter(name="id") @RequestParam Long id) {
+    //     HelpRequest helpRequest = helpRequestRepository.findById(id)
+    //             .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
+
+    //     return helpRequest;
+    // }
 
     // creates a new help request entry for HelpRequest data table
     @Operation(summary= "Create a new help request")
@@ -64,13 +74,7 @@ public class HelpRequestController extends ApiController {
         // See: https://www.baeldung.com/spring-date-parameters
 
         log.info("requestTime={}", requestTime);
-
-        // UCSBDate ucsbDate = new UCSBDate();
-        /*
-        ucsbDate.setQuarterYYYYQ(quarterYYYYQ);
-        ucsbDate.setName(name);
-        ucsbDate.setLocalDateTime(localDateTime);
-         */
+        
         HelpRequest helpRequest = new HelpRequest();
 
         helpRequest.setRequesterEmail(requesterEmail);
