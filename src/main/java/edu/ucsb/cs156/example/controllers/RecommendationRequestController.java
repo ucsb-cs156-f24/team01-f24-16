@@ -121,5 +121,37 @@ public class RecommendationRequestController extends ApiController {
 
         return ucsbRecommendationRequest;
     }
+
+
+        /**
+     * Update a single recommendation request
+     * 
+     * @param id       id of the date to update
+     * @param incoming the recommendation request
+     * @return the updated recommendation request object
+     */
+    @Operation(summary= "Update a recommendation request")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBRecommendationRequest updateRecommendationRequest(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBRecommendationRequest incoming) {
+
+        UCSBRecommendationRequest ucsbRecommendationRequest = ucsbRecommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBRecommendationRequest.class, id));
+
+        ucsbRecommendationRequest.setDateNeeded(incoming.getDateNeeded());
+        ucsbRecommendationRequest.setDateRequested(incoming.getDateRequested());
+        ucsbRecommendationRequest.setDone(incoming.getDone());
+        ucsbRecommendationRequest.setExplanation(incoming.getExplanation());
+        ucsbRecommendationRequest.setId(id);
+        ucsbRecommendationRequest.setProfessorEmail(incoming.getProfessorEmail());
+        ucsbRecommendationRequest.setRequesterEmail(incoming.getRequesterEmail());
+        ucsbRecommendationRequestRepository.save(ucsbRecommendationRequest);
+
+        return ucsbRecommendationRequest;
+    }
+
+
     
 }

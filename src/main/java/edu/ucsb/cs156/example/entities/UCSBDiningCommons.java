@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,8 +24,8 @@ public class UCSBDiningCommons {
   private String code;
   private String name;
   private boolean hasSackMeal;
-  private boolean hasTakeOutMeal;
-  private boolean hasDiningCam;
+  @Getter private boolean hasTakeOutMeal;
+  @Getter private boolean hasDiningCam;
   private Double latitude;
   private Double longitude;
 }

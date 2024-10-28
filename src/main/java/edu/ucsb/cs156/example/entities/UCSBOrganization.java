@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /** 
@@ -25,5 +26,5 @@ public class UCSBOrganization {
   private String orgCode;
   private String orgTranslationShort;
   private String orgTranslation;
-  private boolean inactive;
+  @Getter private boolean inactive;
 }
