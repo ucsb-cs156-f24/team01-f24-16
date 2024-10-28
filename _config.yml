@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/team01-f24-16
 owner: ucsb-cs156-f24
 repo_name: team01-f24-16
-pull_requests: [{"author":{"id":"MDQ6VXNlcjgyMzMyNjk2","is_bot":false,"login":"jayster7101","name":"Jayden"},"headRefName":"recReq_delete","number":63,"title":"recommendation request delete method and testing.","url":"https://github.com/ucsb-cs156-f24/team01-f24-16/pull/63"}]
+pull_requests: [{"author":{"id":"U_kgDOB3E0Rw","is_bot":false,"login":"ttnguyen908","name":"Tiffany Nguyen"},"headRefName":"Tiffany-HelpReq-PUT","number":67,"title":"HelpRequest controller implemented with PUT (edit) operation! Jacoco + pitest 100% coverage.","url":"https://github.com/ucsb-cs156-f24/team01-f24-16/pull/67"},{"author":{"id":"MDQ6VXNlcjgyMzMyNjk2","is_bot":false,"login":"jayster7101","name":"Jayden"},"headRefName":"recReq_delete","number":63,"title":"recommendation request delete method and testing.","url":"https://github.com/ucsb-cs156-f24/team01-f24-16/pull/63"}]
