@@ -152,6 +152,24 @@ import java.time.LocalDateTime;
 <span class="fc" id="L152">        return ucsbRecommendationRequest;</span>
     }
 
+        /**
+     * Delete a UCSBRecommendationRequest 
+     * 
+     * @param id the id of the recommendationRequest to delete
+     * @return a message indicating the recommendationRequest was deleted
+     */
+    @Operation(summary= &quot;Delete a UCSBRecommendationRequest&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteUCSBDate(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L166">            UCSBRecommendationRequest ucsbRecommendationRequest = ucsbRecommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L167">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBRecommendationRequest.class, id));</span>
+
+<span class="fc" id="L169">        ucsbRecommendationRequestRepository.delete(ucsbRecommendationRequest);</span>
+<span class="fc" id="L170">        return genericMessage(&quot;UCSBRecommendationRequest with id %s deleted&quot;.formatted(id));</span>
+    }
+
 
     
 }
