@@ -107,6 +107,8 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 
+        // tests for POST
+
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
         public void an_admin_user_can_post_a_new_helprequest() throws Exception {
@@ -138,20 +140,71 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 
-        // NOTE TO SELF ; UNCOMMENT ONCE GET IS COMPLETE
         // Authorization tests for GET
-        // @Test
-        // public void logged_out_users_cannot_get_by_id() throws Exception {
-        //         mockMvc.perform(get("/api/helprequests?id=7"))
-        //                         .andExpect(status().is(403)); // logged out users can't get by id
-        // }
 
-        // @WithMockUser(roles = { "USER" })
-        // @Test
-        // public void logged_in_users_can_get_by_id() throws Exception {
-        //         mockMvc.perform(get("/api/helprequests?id=7"))
-        //                         .andExpect(status().is(200)); // logged in users can get by id
-        // }
+        /* FROM CHECKLIST TASK ; 
+                In HelpRequestController.java there is code for an
+                endpoint GET /api/HelpRequest?id=123 endpoint
+                that returns the JSON of the database record with id 123 if it
+                exists, or a 404 and the error message id 123 not found if it
+                does not.
+        */
+
+        @Test
+        public void logged_out_users_cannot_get_by_id() throws Exception {
+                mockMvc.perform(get("/api/helprequest?id=7"))
+                                .andExpect(status().is(403)); // logged out users can't get by id
+        }
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+                // arrange
+                LocalDateTime reqTime = LocalDateTime.parse("2024-10-31T00:00:00");
+
+                HelpRequest helpRequest = HelpRequest.builder()
+                                .requesterEmail("ttnguyen@ucsb.edu")
+                                .teamId("F24-16")
+                                .tableOrBreakoutRoom("Table_16")
+                                .explanation("Needs_help_with_jpa03")
+                                .solved(true)
+                                .requestTime(reqTime)
+                                .build();
+
+                when(helpRequestRepository.findById(eq(123L))).thenReturn(Optional.of(helpRequest));
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/helprequest?id=123"))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+
+                verify(helpRequestRepository, times(1)).findById(eq(123L));
+                String expectedJson = mapper.writeValueAsString(helpRequest);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+
+                // arrange
+
+                when(helpRequestRepository.findById(eq(123L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/helprequest?id=123"))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+
+                verify(helpRequestRepository, times(1)).findById(eq(123L));
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("EntityNotFoundException", json.get("type"));
+                assertEquals("HelpRequest with id 123 not found", json.get("message"));
+        }
 
         // Authorization tests for /api/helprequest/post (POST)
         // (Perhaps should also have these for put and delete)
