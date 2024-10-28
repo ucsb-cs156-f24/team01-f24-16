@@ -121,6 +121,38 @@ import java.time.LocalDateTime;
 
 <span class="fc" id="L122">        return ucsbRecommendationRequest;</span>
     }
+
+
+        /**
+     * Update a single recommendation request
+     * 
+     * @param id       id of the date to update
+     * @param incoming the recommendation request
+     * @return the updated recommendation request object
+     */
+    @Operation(summary= &quot;Update a recommendation request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public UCSBRecommendationRequest updateRecommendationRequest(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid UCSBRecommendationRequest incoming) {
+
+<span class="fc" id="L140">        UCSBRecommendationRequest ucsbRecommendationRequest = ucsbRecommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L141">                .orElseThrow(() -&gt; new EntityNotFoundException(UCSBRecommendationRequest.class, id));</span>
+
+<span class="fc" id="L143">        ucsbRecommendationRequest.setDateNeeded(incoming.getDateNeeded());</span>
+<span class="fc" id="L144">        ucsbRecommendationRequest.setDateRequested(incoming.getDateRequested());</span>
+<span class="fc" id="L145">        ucsbRecommendationRequest.setDone(incoming.getDone());</span>
+<span class="fc" id="L146">        ucsbRecommendationRequest.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L147">        ucsbRecommendationRequest.setId(id);</span>
+<span class="fc" id="L148">        ucsbRecommendationRequest.setProfessorEmail(incoming.getProfessorEmail());</span>
+<span class="fc" id="L149">        ucsbRecommendationRequest.setRequesterEmail(incoming.getRequesterEmail());</span>
+<span class="fc" id="L150">        ucsbRecommendationRequestRepository.save(ucsbRecommendationRequest);</span>
+
+<span class="fc" id="L152">        return ucsbRecommendationRequest;</span>
+    }
+
+
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
