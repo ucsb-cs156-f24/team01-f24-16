@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
     @Autowired
     HelpRequestRepository helpRequestRepository;
 
-    // lists all help requests
+    // GET (all entries) : lists all help requests
     @Operation(summary= &quot;List all help requests&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;/all&quot;)
@@ -45,19 +45,19 @@ import java.time.LocalDateTime;
 <span class="fc" id="L45">        return requests;</span>
     }
 
-    // Gets a single help request by id
-    // @Operation(summary= &quot;Get a single help request&quot;)
-    // @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
-    // @GetMapping(&quot;&quot;)
-    // public HelpRequest getById(
-    //         @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
-    //     HelpRequest helpRequest = helpRequestRepository.findById(id)
-    //             .orElseThrow(() -&gt; new EntityNotFoundException(HelpRequest.class, id));
+    // GET (by ID / single entry): Gets a single help request by id
+    @Operation(summary= &quot;Get a single help request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public HelpRequest getById(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L54">        HelpRequest helpRequest = helpRequestRepository.findById(id)</span>
+<span class="fc" id="L55">                .orElseThrow(() -&gt; new EntityNotFoundException(HelpRequest.class, id));</span>
 
-    //     return helpRequest;
-    // }
+<span class="fc" id="L57">        return helpRequest;</span>
+    }
 
-    // creates a new help request entry for HelpRequest data table
+    // POST : creates a new help request entry for HelpRequest data table
     @Operation(summary= &quot;Create a new help request&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/post&quot;)
